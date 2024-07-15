@@ -19,6 +19,16 @@ module.exports = class Validator {
       process.exit(1);
     }
 
+    // Cache Size
+    if (
+      isNaN(config.CACHE_SIZE.GUILDS) ||
+      isNaN(config.CACHE_SIZE.USERS) ||
+      isNaN(config.CACHE_SIZE.MEMBERS)
+    ) {
+      error('config.js: CACHE_SIZE must be a positive integer');
+      process.exit(1);
+    }
+
     // Warnings
     if (config.OWNER_IDS.length === 0) warn('config.js: OWNER_IDS are empty');
     if (!config.SUPPORT_SERVER)

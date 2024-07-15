@@ -3,7 +3,7 @@ module.exports = {
   SUPPORT_SERVER: 'https://discord.gg/arg4tUgnFQ',
   PREFIX_COMMANDS: {
     ENABLED: true,
-    DEFAULT_PREFIX: '!',
+    DEFAULT_PREFIX: '?',
   },
   INTERACTIONS: {
     SLASH: false,
@@ -25,4 +25,5 @@ module.exports = {
   MESSAGES: {
     API_ERROR: 'An error occurred while fetching data from the API.',
   },
+  WHITELIST_IDS: [], // Add user IDs to this array
 };

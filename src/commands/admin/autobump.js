@@ -1,4 +1,6 @@
 const { enableBump, disableBump, checkBumpStatus } = require('@handlers/bump');
+const { getSettings } = require('@schemas/Guild');
+const { OWNER_IDS } = require('@root/config');
 
 /**
  * @type {import("@structures/Command")}
@@ -6,7 +8,7 @@ const { enableBump, disableBump, checkBumpStatus } = require('@handlers/bump');
 module.exports = {
   name: 'autobump',
   description:
-    'Enables, disables, or checks the status of sending the /bump command every minute with random variance',
+    'Enables, disables, or checks the status of sending the bump command every 2 hours with a 5 minute random variance',
   category: 'ADMIN',
   command: {
     enabled: true,
@@ -16,6 +18,16 @@ module.exports = {
   },
 
   async messageRun(message, args) {
+    const settings = await getSettings(message.guild);
+    const isServerOwner = message.author.id === settings.data.owner;
+    const isBotOwner = OWNER_IDS.includes(message.author.id);
+
+    if (!isServerOwner && !isBotOwner) {
+      return message.channel.send(
+        'Only the server owner or a bot owner can use this command.',
+      );
+    }
+
     const action = args[0].toLowerCase();
     const channelId = message.channel.id;
     const guildId = message.guild.id;

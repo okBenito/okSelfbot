@@ -1,5 +1,5 @@
 const { commandHandler } = require('@src/handlers');
-const { PREFIX_COMMANDS, OWNER_IDS } = require('@root/config');
+const { PREFIX_COMMANDS, OWNER_IDS, WHITELIST_IDS } = require('@root/config');
 const { getSettings } = require('@schemas/Guild');
 
 /**
@@ -12,9 +12,10 @@ module.exports = async (client, message) => {
   const settings = await getSettings(message.guild);
   const isBotOwner = OWNER_IDS.includes(message.author.id);
   const isServerOwner = message.author.id === settings.data.owner;
+  const isWhitelisted = WHITELIST_IDS.includes(message.author.id);
 
-  // Only proceed if the user is the server owner or a bot owner
-  if (!isBotOwner && !isServerOwner) return;
+  // Only proceed if the user is the server owner, a bot owner, or whitelisted
+  if (!isBotOwner && !isServerOwner && !isWhitelisted) return;
 
   // command handler
   let isCommand = false;

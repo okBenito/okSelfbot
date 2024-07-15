@@ -1,0 +1,21 @@
+services:
+  app:
+    image: node:20-alpine
+    container_name: selfbot-js
+    working_dir: /usr/src/app
+    command: sh -c "apk add --no-cache tzdata && ln -snf /usr/share/zoneinfo/MST /etc/localtime && echo MST > /etc/timezone && npm install && npm run dev"
+    restart: unless-stopped
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env
+    networks:
+      - mongo-net
+
+networks:
+  mongo-net:
+    external: true
+
+volumes:
+  node_modules:
