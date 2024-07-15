@@ -1,4 +1,3 @@
-// src/database/schemas/Guild.js
 const mongoose = require('mongoose');
 const { CACHE_SIZE, PREFIX_COMMANDS } = require('@root/config.js');
 const FixedSizeMap = require('fixedsize-map');
@@ -47,7 +46,7 @@ module.exports = {
           const userDb = await getUser(owner);
           await userDb.save();
         })
-        .catch((ex) => {});
+        .catch();
 
       // create a new guild model
       guildData = new Model({

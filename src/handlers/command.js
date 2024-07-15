@@ -6,7 +6,6 @@ const cooldownCache = new Map();
 module.exports = {
   handlePrefixCommand: async function (message, cmd, settings) {
     const prefix = settings.prefix;
-    const escapedPrefix = escapeSpecialCharacters(prefix);
     const args = message.content.slice(prefix.length).trim().split(/\s+/);
     const invoke = args.shift().toLowerCase();
 
@@ -105,19 +104,31 @@ module.exports = {
           sub.description
         }\n`;
       });
-      if (cmd.cooldown) {
-        desc += `**Cooldown:** ${timeformat(cmd.cooldown)}`;
+      if (cmd.command.cooldown) {
+        desc += `**Cooldown:** ${timeformat(cmd.command.cooldown)}`;
       }
     } else {
       desc += `\`${prefix}${invoke || cmd.name} ${cmd.command.usage}\`\n`;
       if (cmd.description !== '') desc += `\n**Help:** ${cmd.description}`;
-      if (cmd.cooldown) desc += `\n**Cooldown:** ${timeformat(cmd.cooldown)}`;
+      if (cmd.command.cooldown)
+        desc += `\n**Cooldown:** ${timeformat(cmd.command.cooldown)}`;
     }
 
     return desc;
   },
 };
 
-function escapeSpecialCharacters(prefix) {
-  return prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function applyCooldown(memberId, cmd) {
+  const key = `${cmd.name}|${memberId}`;
+  const cooldownExpiration = Date.now() + cmd.cooldown * 1000;
+  cooldownCache.set(key, cooldownExpiration);
+}
+
+function getRemainingCooldown(memberId, cmd) {
+  const key = `${cmd.name}|${memberId}`;
+  const cooldownExpiration = cooldownCache.get(key);
+  if (!cooldownExpiration) return 0;
+
+  const remainingTime = cooldownExpiration - Date.now();
+  return remainingTime > 0 ? remainingTime / 1000 : 0;
 }

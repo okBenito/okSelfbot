@@ -1,3 +1,4 @@
+const process = require('process');
 const mongoose = require('mongoose');
 const { log, success, error } = require('../helpers/Logger');
 

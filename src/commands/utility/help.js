@@ -50,8 +50,7 @@ function getHelpMenu(client) {
 
   menuMessage += `**Help Menu:**\nChoose the command category by reacting with the corresponding emoji:\n\n`;
 
-  for (const [key, value] of Object.entries(CommandCategory)) {
-    // eslint-disable-line no-unused-vars
+  for (const value of Object.values(CommandCategory)) {
     menuMessage += `${value.emoji} ${value.name}\n`;
   }
 
@@ -88,7 +87,7 @@ async function startNavigation(msg, userId, prefix, client) {
   let currentCategory = null;
   let arrMessages = [];
 
-  collector.on('collect', async (reaction, user) => {
+  collector.on('collect', async (reaction) => {
     const selectedEmoji = reaction.emoji.name;
 
     if (selectedEmoji === HOME_EMOJI) {
@@ -111,7 +110,7 @@ async function startNavigation(msg, userId, prefix, client) {
     await msg
       .react(selectedEmoji)
       .catch((error) =>
-        message.client.logger.error('Failed to react with emoji:', error),
+        client.logger.error('Failed to react with emoji:', error),
       );
   });
 
@@ -130,7 +129,7 @@ async function startNavigation(msg, userId, prefix, client) {
       await msg
         .react(CommandCategory[previousCategory].emoji)
         .catch((error) =>
-          message.client.logger.error('Failed to react with emoji:', error),
+          client.logger.error('Failed to react with emoji:', error),
         );
       currentCategory = previousCategory;
       arrMessages = prefix

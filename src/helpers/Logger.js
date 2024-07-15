@@ -1,3 +1,4 @@
+const process = require('process');
 const config = require('@root/config');
 const { EmbedBuilder, WebhookClient } = require('discord.js');
 const pino = require('pino');
@@ -60,7 +61,7 @@ function sendWebhook(content, err) {
     name: 'Description',
     value: content || err?.message || 'NA',
   });
-  webhookLogger.send({ username: 'Logs', embeds: [embed] }).catch((ex) => {});
+  webhookLogger.send({ username: 'Logs', embeds: [embed] }).catch(() => {});
 }
 
 module.exports = class Logger {

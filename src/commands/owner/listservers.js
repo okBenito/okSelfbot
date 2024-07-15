@@ -12,7 +12,7 @@ module.exports = {
   },
 
   async messageRun(message, args) {
-    const { client, channel } = message;
+    const { client } = message;
 
     const matched = [];
     const match = args.join(' ') || null;

@@ -20,11 +20,6 @@ module.exports = class BotClient extends Client {
     this.commands = []; // store actual command
     this.commandIndex = new Collection(); // store (alias, arrayIndex) pair
 
-    // initialize webhook for sending guild join/leave details
-    this.joinLeaveWebhook = process.env.JOIN_LEAVE_LOGS
-      ? new WebhookClient({ url: process.env.JOIN_LEAVE_LOGS })
-      : undefined;
-
     // Logger
     this.logger = Logger;
 
@@ -140,7 +135,7 @@ module.exports = class BotClient extends Client {
         validateCommand(cmd);
         this.loadCommand(cmd);
       } catch (ex) {
-        this.logger.error(`Failed to load ${file} Reason: `);
+        this.logger.error(`Failed to load ${file} Reason: `, ex);
       }
     }
 

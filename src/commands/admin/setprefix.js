@@ -8,14 +8,13 @@ module.exports = {
   name: 'setprefix',
   description: 'sets a new prefix for this server',
   category: 'ADMIN',
-  userPermissions: ['ManageGuild'],
   command: {
     enabled: true,
     usage: '<new-prefix>',
     minArgsCount: 1,
   },
 
-  async messageRun(message, args, data) {
+  async messageRun(message, args) {
     const guildSettings = await getSettings(message.guild);
     const serverOwner = guildSettings.data.owner;
 
@@ -40,12 +39,7 @@ async function setNewPrefix(newPrefix, settings) {
   // Save the new prefix directly
   settings.prefix = newPrefix;
 
-  try {
-    await settings.save();
-  } catch (error) {
-    message.client.logger.error('Error saving new prefix:', error);
-    return 'There was an error setting the new prefix.';
-  }
+  await settings.save();
 
   return `New prefix is set to \`${newPrefix}\``;
 }
