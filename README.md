@@ -1,6 +1,8 @@
 # okSelfbot
 
-okSelfbot is a Discord self-bot. This project allows users to automate certain tasks within Discord. Please note that using self-bots is against Discord's Terms of Service (TOS) and can result in account termination. Use this bot at your own risk.
+okSelfbot is a Discord self-bot. This project allows users to automate certain tasks within Discord.
+
+_**Please note that using self-bots is against Discord's Terms of Service (TOS) and can result in account termination. Use this bot at your own risk.**_
 
 ## Getting Started
 
